@@ -1,0 +1,13 @@
+bind_addr = "{{ ansible_default_ipv4.address }}"
+data_dir = "/opt/nomad/data"
+
+server {
+  enabled = true
+  bootstrap_expect = 3
+}
+
+atlas {
+  infrastructure = "bkendall/nomad"
+  token = "{{ vault_atlas_token }}"
+  join = true
+}

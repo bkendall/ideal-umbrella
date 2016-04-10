@@ -1,0 +1,11 @@
+pre-start script
+  mkdir -p /opt/nomad/data
+end script
+
+respawn
+respawn limit 15 5
+
+start on runlevel [2345]
+stop on runlevel [06]
+
+exec nomad agent -config /opt/nomad/nomad.hcl

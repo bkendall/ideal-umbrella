@@ -1,0 +1,32 @@
+---
+- name: make nomad directory
+  become: yes
+  file:
+    dest: /opt/nomad
+    state: directory
+
+- name: make nomad data directory
+  become: yes
+  file:
+    dest: /opt/nomad/data
+    state: directory
+
+- name: put nomad configuration in place
+  become: yes
+  template:
+    dest: /opt/nomad/nomad.hcl
+    src: nomad.hcl.j2
+    mode: 0644
+
+- name: put nomad in upstart services
+  become: yes
+  template:
+    dest: /etc/init/nomad.conf
+    src: nomad.conf.j2
+    mode: 0644
+
+- name: start nomad
+  become: yes
+  service:
+    name: nomad
+    state: restarted

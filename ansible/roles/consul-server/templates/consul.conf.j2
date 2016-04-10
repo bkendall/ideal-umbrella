@@ -1,0 +1,11 @@
+pre-start script
+  mkdir -p /opt/consul/data
+end script
+
+respawn
+respawn limit 15 5
+
+start on runlevel [2345]
+stop on runlevel [06]
+
+exec consul agent -config-file /opt/consul/consul.json

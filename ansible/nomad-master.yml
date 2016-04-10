@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  roles:
+  - consul-server
+  - nomad-master
+
+- hosts: localhost
+  tasks:
+  - include: roles/docker/tasks/disable.yml

@@ -1,0 +1,32 @@
+---
+- name: make consul directory
+  become: yes
+  file:
+    dest: /opt/consul
+    state: directory
+
+- name: make consul data directory
+  become: yes
+  file:
+    dest: /opt/consul/data
+    state: directory
+
+- name: put consul configuration in place
+  become: yes
+  template:
+    dest: /opt/consul/consul.json
+    src: consul.json.j2
+    mode: 0644
+
+- name: put consul in upstart services
+  become: yes
+  template:
+    dest: /etc/init/consul.conf
+    src: consul.conf.j2
+    mode: 0644
+
+- name: start consul
+  become: yes
+  service:
+    name: consul
+    state: restarted
