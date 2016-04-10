@@ -11,6 +11,10 @@
     dest: /opt/nomad/data
     state: directory
 
+- name: split ips by commas
+  set_fact:
+    nomad_master_server_ips_list: "{{ nomad_master_server_ips.split(',') }}"
+
 - name: put nomad configuration in place
   become: yes
   template:
