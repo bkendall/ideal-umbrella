@@ -4,7 +4,7 @@ data_dir = "/opt/nomad/data"
 client {
   enabled = true
   servers = [
-    {% for ip in nomad_master_server_ips %}
+    {% for ip in nomad_master_server_ips|split(",") %}
     "{{ ip }}"{% if not loop.last %},{% endif %}
     {% endfor %}
   ]
