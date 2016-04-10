@@ -5,7 +5,7 @@ client {
   enabled = true
   servers = [
     {% for ip in nomad_master_server_ips %}
-    "{{ ip }}"{% if not loop.last %},{% end if %}
+    "{{ ip }}"{% if not loop.last %},{% endif %}
     {% endfor %}
   ]
 }
