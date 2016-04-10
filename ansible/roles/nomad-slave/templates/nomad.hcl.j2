@@ -3,6 +3,11 @@ data_dir = "/opt/nomad/data"
 
 client {
   enabled = true
+  servers = [
+    {% for ip in nomad_master_server_ips %}
+    "{{ ip }}"{% if not loop.last %},{% end if %}
+    {% endfor %}
+  ]
 }
 
 atlas {
