@@ -4,9 +4,11 @@ data_dir = "/opt/nomad/data"
 server {
   enabled = true
   bootstrap_expect = 3
+  {% if nomad_master_bootstrap_server_ip is defined %}
   retry_join = [
     "{{ nomad_master_bootstrap_server_ip }}"
   ]
+  {% endif %}
 }
 
 atlas {

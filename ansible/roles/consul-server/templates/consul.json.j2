@@ -3,9 +3,11 @@
   "bootstrap_expect": 3,
   "server": true,
   "bind_addr": "{{ ansible_default_ipv4.address }}",
+  {% if nomad_master_bootstrap_server_ip is defined %}
   "retry_join": [
     "{{ nomad_master_bootstrap_server_ip }}"
   ],
+  {% endif %}
   "recursors": [
     "8.8.8.8",
     "8.8.4.4"
