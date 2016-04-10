@@ -1,0 +1,61 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "key_name": "",
+    "private_key": ""
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-west-1",
+      "source_ami": "ami-06116566",
+      "instance_type": "t2.small",
+      "ssh_username": "ubuntu",
+      "ssh_keypair_name": "{{user `key_name`}}",
+      "ssh_private_key_file": "{{user `private_key`}}",
+      "vpc_id": "vpc-ee06418b",
+      "subnet_id": "subnet-e5380880",
+      "associate_public_ip_address": true,
+      "ami_name": "bryan-nomad-base {{timestamp}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo apt-get clean",
+        "sudo apt-get update",
+        "sudo apt-get install -y unzip dnsmasq curl wget python python-dev build-essential"
+      ]
+    },
+    {
+      "type": "shell",
+      "pause_before": "5s",
+      "inline": [
+        "curl -sSL https://get.docker.com/ | sudo sh"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "wget https://releases.hashicorp.com/nomad/0.3.1/nomad_0.3.1_linux_amd64.zip",
+        "sudo unzip nomad* -d /usr/local/bin"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "wget https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip",
+        "sudo unzip consul* -d /usr/local/bin"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "curl -sSL https://bootstrap.pypa.io/get-pip.py | PYTHONWARNINGS=\"ignore:Unverified HTTPS request\" sudo -E python",
+        "sudo pip install ansible==2.0.1.0"
+      ]
+    }
+  ]
+}
